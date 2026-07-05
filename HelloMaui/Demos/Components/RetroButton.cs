@@ -8,6 +8,7 @@ namespace YourApp.Controls;
 public sealed class RetroButton : ContentView
 {
     private readonly Border _face;
+    private readonly Border _depth;
     private readonly Label _label;
 
     /// <summary>
@@ -78,6 +79,61 @@ public sealed class RetroButton : ContentView
         set => SetValue(TextPaddingProperty, value);
     }
 
+    public static readonly BindableProperty FaceBrushProperty =
+    BindableProperty.Create(
+        nameof(FaceBrush),
+        typeof(Brush),
+        typeof(RetroButton),
+        CreateDefaultFaceBrush(),
+        propertyChanged: (b, _, n) =>
+            ((RetroButton)b)._face.Background = (Brush)n);
+
+    public static readonly BindableProperty DepthBrushProperty =
+        BindableProperty.Create(
+            nameof(DepthBrush),
+            typeof(Brush),
+            typeof(RetroButton),
+            CreateDefaultDepthBrush(),
+            propertyChanged: (b, _, n) =>
+                ((RetroButton)b)._depth.Background = (Brush)n);
+
+    private static Brush CreateDefaultFaceBrush() =>
+    new LinearGradientBrush(
+    [
+        new GradientStop(Color.FromArgb("#F1F1F1"), 0.0f),
+        new GradientStop(Color.FromArgb("#DADADA"), 0.5f),
+        new GradientStop(Color.FromArgb("#C2C2C2"), 1.0f)
+    ],
+    new Point(0.2, 0),
+    new Point(1, 1));
+
+    private static Brush CreateDefaultDepthBrush() =>
+        new LinearGradientBrush(
+        [
+            new GradientStop(Color.FromArgb("#8A8A8A"), 0.0f),
+            new GradientStop(Color.FromArgb("#666666"), 1.0f)
+        ],
+        new Point(0, 0),
+        new Point(1, 1));
+
+    /// <summary>
+    /// Gets or sets the brush used for the button face.
+    /// </summary>
+    public Brush FaceBrush
+    {
+        get => (Brush)GetValue(FaceBrushProperty);
+        set => SetValue(FaceBrushProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the brush used for the button depth.
+    /// </summary>
+    public Brush DepthBrush
+    {
+        get => (Brush)GetValue(DepthBrushProperty);
+        set => SetValue(DepthBrushProperty, value);
+    }
+
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(
             nameof(Text),
@@ -145,26 +201,27 @@ public sealed class RetroButton : ContentView
     {
         _label = new Label();
 
-        var depth = new Border
-        {
-            BackgroundColor = Color.FromArgb("#B56A00"),
-            Margin = new Thickness(2, 4, 2, 4),
-            StrokeShape = new RoundRectangle
-            {
-                CornerRadius = new CornerRadius(14)
-            }
-        };
-
         _face = new Border
         {
-            BackgroundColor = Color.FromArgb("#FFD500"),
-            Stroke = Color.FromArgb("#FFF08A"),
+            Background = CreateDefaultFaceBrush(),
+            Stroke = Color.FromArgb("#C77700"),
             StrokeThickness = 2,
             StrokeShape = new RoundRectangle
             {
                 CornerRadius = new CornerRadius(14)
             },
             Content = _label
+        };
+
+        _depth = new Border
+        {
+            Background = CreateDefaultDepthBrush(),
+            StrokeThickness = 0,
+            Margin = new Thickness(0, 6, 0, 0),
+            StrokeShape = new RoundRectangle
+            {
+                CornerRadius = new CornerRadius(14)
+            }
         };
 
         var tap = new TapGestureRecognizer();
@@ -184,8 +241,8 @@ public sealed class RetroButton : ContentView
         {
             Children =
             {
-                depth,
-                _face
+                _depth,
+                _face,
             }
         };
     }

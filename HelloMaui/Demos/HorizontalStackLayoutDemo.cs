@@ -63,11 +63,10 @@ namespace HelloMaui
 
             var retroButton = new RetroButton
             {
-                Text = "PLAY!",
+                Text = "Goaaaaal Norvege-Bresil!",
                 FontSize = 32,
                 FontAttributes = FontAttributes.Bold,
-                TextColor = Colors.Brown,
-                BackgroundColor = Colors.LightSlateGray,
+                TextColor = Colors.DarkBlue,
                 TextPadding = new Thickness(30, 15)
             };
 
