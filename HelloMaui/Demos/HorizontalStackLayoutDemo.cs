@@ -67,7 +67,8 @@ namespace HelloMaui
                 FontSize = 32,
                 FontAttributes = FontAttributes.Bold,
                 TextColor = Colors.DarkBlue,
-                TextPadding = new Thickness(30, 15)
+                TextPadding = new Thickness(30, 15),
+                FontFamily = "RogueScript"
             };
 
             verticalLayout.Children.Add(retroButton);

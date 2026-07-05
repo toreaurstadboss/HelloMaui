@@ -79,6 +79,15 @@ public sealed class RetroButton : ContentView
         set => SetValue(TextPaddingProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the text padding.
+    /// </summary>
+    public string FontFamily
+    {
+        get => (string)GetValue(FontFamilyProperty);
+        set => SetValue(FontFamilyProperty, value);
+    }
+
     public static readonly BindableProperty FaceBrushProperty =
     BindableProperty.Create(
         nameof(FaceBrush),
@@ -196,6 +205,15 @@ public sealed class RetroButton : ContentView
             new Thickness(24, 12),
             propertyChanged: (b, _, n) =>
                 ((RetroButton)b)._label.Padding = (Thickness)n);
+
+    public static readonly BindableProperty FontFamilyProperty =
+    BindableProperty.Create(
+        nameof(FontFamily),
+        typeof(string),
+        typeof(RetroButton),
+        "RobotoFlex",
+        propertyChanged: (b, _, n) =>
+            ((RetroButton)b)._label.FontFamily = (string)n);
 
     public RetroButton()
     {
