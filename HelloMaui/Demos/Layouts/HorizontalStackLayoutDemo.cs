@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using YourApp.Controls;
 
-namespace HelloMaui
+namespace HelloMaui.Demos.Layouts
 {
 
     public class HorizontalStackLaoyutDemo : ContentPage

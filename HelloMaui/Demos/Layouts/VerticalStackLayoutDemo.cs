@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HelloMaui
+namespace HelloMaui.Demos.Layouts
 {
 
     public class VerticalStackLaoyutDemo : ContentPage

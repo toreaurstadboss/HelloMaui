@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HelloMaui.Demos.Xaml;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace HelloMaui
@@ -23,7 +24,7 @@ namespace HelloMaui
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new HorizontalStackLaoyutDemo());
+            return new Window(new DemoPage1());
         }
     }
 }

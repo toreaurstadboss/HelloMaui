@@ -73,4 +73,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.9" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Demos\Xaml\DemoPage1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
