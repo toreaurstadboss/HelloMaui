@@ -22,7 +22,9 @@
         <ScrollView VerticalScrollBarVisibility="Always">
 
             <Grid
-                RowDefinitions="*, 100, 40, 500"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                RowDefinitions="*, 100, 40, 500, *"
                 ColumnDefinitions="*,*,*"
                 RowSpacing="12"
                 ColumnSpacing="12"
@@ -66,6 +68,16 @@
                     Style="{StaticResource CommonEntryStyle}"                 
                     Grid.Row="2"
                     Grid.Column="2" />
+
+                <Label
+                    Text="LARGE TEXT"
+                    FontSize="32"
+                    FontFamily="OpenSans"
+                    Grid.ColumnSpan="3"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"                    
+                    Grid.Row="3"
+                    Grid.Column="0" />
 
             </Grid>
 
