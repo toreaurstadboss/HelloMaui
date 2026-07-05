@@ -23,7 +23,7 @@ namespace HelloMaui
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new NavigationPage(new MainPage()));
+            return new Window(new MainPage());
         }
     }
 }

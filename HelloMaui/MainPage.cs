@@ -11,7 +11,9 @@ namespace HelloMaui
         public MainPage()
         {
             Content = new Label()
-                .Text("This is a label")
+                .Text("Hello MAUI")
+                .TextColor(Color.FromArgb("10203030"))
+                .FontSize(48)
                 .Center()
                 .TextCenter();
         }
