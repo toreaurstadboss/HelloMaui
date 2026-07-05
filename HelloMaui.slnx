@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="HelloMaui/HelloMaui.csproj" />
+  <Project Path="HelloMaui/HelloMaui.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>
