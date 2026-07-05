@@ -199,7 +199,10 @@ public sealed class RetroButton : ContentView
 
     public RetroButton()
     {
-        _label = new Label();
+        _label = new Label
+        {
+            FontFamily = "RobotoFlex"
+        };
 
         _face = new Border
         {
@@ -243,7 +246,8 @@ public sealed class RetroButton : ContentView
             {
                 _depth,
                 _face,
-            }
+            },
+            Margin = new Thickness(2, 4, 2, 4) //default margin 
         };
     }
 }

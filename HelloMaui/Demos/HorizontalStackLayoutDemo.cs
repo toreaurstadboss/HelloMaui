@@ -63,7 +63,7 @@ namespace HelloMaui
 
             var retroButton = new RetroButton
             {
-                Text = "Goaaaaal Norvege-Bresil!",
+                Text = "Show options 🍔",
                 FontSize = 32,
                 FontAttributes = FontAttributes.Bold,
                 TextColor = Colors.DarkBlue,
