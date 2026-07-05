@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using YourApp.Controls;
 
 namespace HelloMaui
 {
@@ -47,6 +48,30 @@ namespace HelloMaui
                .TextColor(Colors.Black));
 
             verticalLayout.Children.Add(horizontalLayout);
+
+            verticalLayout.Children.Add(new Button
+            {
+                Padding = new Thickness(5, 10, 15, 20),
+                BackgroundColor = Colors.Yellow,
+                TextColor = Colors.DarkGray,
+                Margin = new Thickness(12),
+                Text = "Why Hello World!",
+                FontFamily = "Comic Sans MS;Arial",
+                CornerRadius = 5
+            });
+
+
+            var retroButton = new RetroButton
+            {
+                Text = "PLAY!",
+                FontSize = 32,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.Brown,
+                BackgroundColor = Colors.LightSlateGray,
+                TextPadding = new Thickness(30, 15)
+            };
+
+            verticalLayout.Children.Add(retroButton);
 
             Content = verticalLayout;
 
