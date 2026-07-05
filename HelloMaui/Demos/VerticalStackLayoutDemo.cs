@@ -6,14 +6,14 @@ using System.Text;
 namespace HelloMaui
 {
 
-    public class MainPage : ContentPage
+    public class VerticalStackLaoyutDemo : ContentPage
     {
-        public MainPage()
+        public VerticalStackLaoyutDemo()
         {
             var verticalLayout = new VerticalStackLayout();
 
             verticalLayout.Children.Add(new Image()
-                .Size(500, 300)
+                .Size(300, 185)
                 .Aspect(Aspect.AspectFit)
                 .Source("dotnet_bot.png"));
 
@@ -25,7 +25,7 @@ namespace HelloMaui
             verticalLayout.Children.Add(
                 new Entry()
                 .TextColor(Colors.Black)
-                .Placeholder("Notes", Colors.LightGray)); 
+                .Placeholder("Notes", Colors.LightGray));
 
 
             Content = verticalLayout;
