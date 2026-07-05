@@ -10,12 +10,26 @@ namespace HelloMaui
     {
         public MainPage()
         {
-            Content = new Label()
-                .Text("Hello MAUI")
-                .TextColor(Color.FromArgb("10203030"))
-                .FontSize(48)
-                .Center()
-                .TextCenter();
+            var verticalLayout = new VerticalStackLayout();
+
+            verticalLayout.Children.Add(new Image()
+                .Size(300, 185)
+                .Aspect(Aspect.AspectFit)
+                .Source("dotnet_bot.png"));
+
+            verticalLayout.Children.Add(
+                new Label()
+                .FontSize(52)
+                .Text("Hello MAUI", Colors.DarkBlue));
+
+            verticalLayout.Children.Add(
+                new Entry()
+                .TextColor(Colors.Black)
+                .Placeholder("Notes", Colors.LightGray)); 
+
+
+            Content = verticalLayout;
+
         }
     }
 
