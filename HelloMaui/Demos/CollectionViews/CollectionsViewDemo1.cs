@@ -82,7 +82,9 @@ namespace HelloMaui.Demos.CollectionViews
 
         private async void HandleCollectionView_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            ArgumentNullException.ThrowIfNull(sender); 
+            ArgumentNullException.ThrowIfNull(sender);
+
+            var collectionView = (CollectionView)sender;
 
             if (e.CurrentSelection.FirstOrDefault() is LibraryModel libraryModel)
             {
@@ -91,11 +93,9 @@ namespace HelloMaui.Demos.CollectionViews
 
                 await Toast.Make("Tapped", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
-            else
-            {
-                _selectionStatusLabel.Text = "Tap an item to see the selected package.";
-                return;
-            }
+           
+            await Task.Delay(2000);
+            collectionView.SelectedItem = null;
           
         }
 
