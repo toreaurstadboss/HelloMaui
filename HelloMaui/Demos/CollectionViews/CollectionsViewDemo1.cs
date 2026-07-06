@@ -29,7 +29,7 @@ namespace HelloMaui.Demos.CollectionViews
                 VerticalScrollBarVisibility = ScrollBarVisibility.Always,
 
                 Header = new Label()
-                    .Text("MAUI and other popular Nuget libraries")
+                    .Text("MAUI Nuget libraries & Others")
                     .Paddings(bottom: 8)
                     .Font(size: 24, family: "RobotoFlex")
                     .Center()
