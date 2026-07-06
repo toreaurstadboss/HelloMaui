@@ -1,4 +1,5 @@
-﻿using HelloMaui.Demos.Xaml;
+﻿using HelloMaui.Demos.CollectionViews;
+using HelloMaui.Demos.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
@@ -24,7 +25,7 @@ namespace HelloMaui
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new DemoPage1());
+            return new Window(new CollectionsViewDemo1());
         }
     }
 }
