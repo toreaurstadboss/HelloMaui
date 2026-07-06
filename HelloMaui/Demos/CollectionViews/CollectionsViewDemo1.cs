@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Markup;
+﻿using CommunityToolkit.Maui.Alerts; 
+using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Controls.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 namespace HelloMaui.Demos.CollectionViews
 {
 
-    public class CollectionsViewDemo1 : BaseContentPage
+    public class CollectionsViewDemo1 : BaseContentPage, IDisposable
     {
         private readonly Label _selectionStatusLabel = new()
         {
@@ -79,20 +80,28 @@ namespace HelloMaui.Demos.CollectionViews
             };
         }
 
-        private void HandleCollectionView_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        private async void HandleCollectionView_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            var selectedItem = e.CurrentSelection.Count > 0
-                ? e.CurrentSelection[0] as LibraryModel
-                : null;
+            ArgumentNullException.ThrowIfNull(sender); 
 
-            if (selectedItem is null)
+            if (e.CurrentSelection.FirstOrDefault() is LibraryModel libraryModel)
+            {
+                _selectionStatusLabel.Text = $"Selected: {libraryModel.Title}";
+                Debug.WriteLine($"Selected package: {libraryModel.Title}");
+
+                await Toast.Make("Tapped", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            }
+            else
             {
                 _selectionStatusLabel.Text = "Tap an item to see the selected package.";
                 return;
             }
+          
+        }
 
-            _selectionStatusLabel.Text = $"Selected: {selectedItem.Title}";
-            Debug.WriteLine($"Selected package: {selectedItem.Title}");
+        public void Dispose()
+        {
+            
         }
 
         ObservableCollection<LibraryModel> MauiLibraries = new()
