@@ -1,12 +1,19 @@
 ﻿using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Controls.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
 namespace HelloMaui.Demos.CollectionViews
 {
 
     public class CollectionsViewDemo1 : BaseContentPage
     {
+        private readonly Label _selectionStatusLabel = new()
+        {
+            Text = "Tap an item to see the selected package.",
+        };
+
         private static Uri GetNuGetPackageIconUri(string packageName, string version)
         {
             return new Uri($"https://api.nuget.org/v3-flatcontainer/{packageName.ToLowerInvariant()}/{version}/icon");
@@ -16,13 +23,7 @@ namespace HelloMaui.Demos.CollectionViews
         {
             BackgroundColor = Colors.Snow;
 
-            foreach (var item in MauiLibraries)
-            {
-                Debug.WriteLine(item.ImageSource);
-                Console.WriteLine(item.ImageSource);
-            }
-
-            Content = new CollectionView()
+            var collectionView = new CollectionView
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Always,
 
@@ -32,17 +33,66 @@ namespace HelloMaui.Demos.CollectionViews
                     .Font(size: 32)
                     .Center()
                     .TextCenter(),
-                Footer = new Label()
-                    .Text(".NET MAUI: From Zero to Hero")
-                    .Paddings(left: 8)
-                    .Font(size: 10)
-                    .Center()
-                    .TextCenter(),
 
                 SelectionMode = SelectionMode.Single,
-                ItemsSource = MauiLibraries,
-                ItemTemplate = new MauiLibraryItemTemplate()
+                ItemTemplate = new MauiLibraryItemTemplate(),
             };
+
+            collectionView.ItemsSource = MauiLibraries;
+            collectionView.SelectionChanged += HandleCollectionView_SelectionChanged;
+
+            var statusChip = new Border
+            {
+                Background = new SolidColorBrush(Color.FromArgb("#EEF5FF")),
+                Stroke = new SolidColorBrush(Color.FromArgb("#A8C7FF")),
+                StrokeThickness = 1,
+                StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = new CornerRadius(18)
+                },
+                Shadow = new Shadow
+                {
+                    Offset = new Point(0, 2),
+                    Radius = 6,
+                    Opacity = 0.12f
+                },
+                Padding = new Thickness(14, 10),
+                Content = _selectionStatusLabel
+                    .Font(size: 12)
+                    .TextCenter()
+                    .TextColor(Color.FromArgb("#1F3B63"))
+            };
+
+            Content = new Grid
+            {
+                RowDefinitions = Rows.Define(
+                    (Row.Header, Auto),
+                    (Row.List, Star),
+                    (Row.Status, Auto)),
+                RowSpacing = 12,
+                Padding = new Thickness(16, 12),
+                Children =
+                {
+                    collectionView.Row(Row.List),
+                    statusChip.Row(Row.Status)
+                }
+            };
+        }
+
+        private void HandleCollectionView_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = e.CurrentSelection.Count > 0
+                ? e.CurrentSelection[0] as LibraryModel
+                : null;
+
+            if (selectedItem is null)
+            {
+                _selectionStatusLabel.Text = "Tap an item to see the selected package.";
+                return;
+            }
+
+            _selectionStatusLabel.Text = $"Selected: {selectedItem.Title}";
+            Debug.WriteLine($"Selected package: {selectedItem.Title}");
         }
 
         ObservableCollection<LibraryModel> MauiLibraries = new()
@@ -164,6 +214,8 @@ namespace HelloMaui.Demos.CollectionViews
             }
 
         };
+
+        enum Row { Header, List, Status }
 
     }
 
