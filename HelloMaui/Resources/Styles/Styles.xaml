@@ -154,9 +154,13 @@
     </Style>
 
     <Style TargetType="Button" x:Key="CheesyClassicButton">
-        <Setter Property="BackgroundColor" Value="#FFD700"/>
-        <!-- blinding gold -->
-        <Setter Property="TextColor" Value="#0000FF"/>
+        <Setter Property="BackgroundColor">
+            <AppThemeBinding Light="#FFD700" Dark="#66CCFF"/>
+        </Setter>
+        <!-- Text color also theme-aware -->
+        <Setter Property="TextColor">
+            <AppThemeBinding Light="#0000FF" Dark="#003366"/>
+        </Setter>
         <!-- painful blue -->
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="FontSize" Value="18"/>
@@ -166,6 +170,14 @@
         <Setter Property="BorderColor" Value="#FF00FF"/>
         <!-- neon magenta -->
         <Setter Property="BorderWidth" Value="4"/>
+
+        <!-- Proper Shadow object -->
+        <Setter Property="Shadow">
+            <Shadow Brush="Black"
+                Opacity="0.6"
+                Offset="10,10"
+                Radius="15" />
+        </Setter>
     </Style>
 
     <Style TargetType="Label">
