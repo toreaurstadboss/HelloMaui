@@ -18,6 +18,19 @@ namespace HelloMaui.Demos.CollectionViews
 
         private static Border CreateGridTemplate()
         {
+            var verticalBottomPanel = new VerticalStackLayout()
+               .Row(Row.Description)
+               .Column(Column.Text);
+
+            verticalBottomPanel.Children.Add(new Button().Text("Add to favorites ⭐"));
+            verticalBottomPanel.Children.Add(new Label()
+                        .Margin(new Thickness(12, 0, 0, 0))
+                        .TextTop()
+                        .TextStart()
+                        .Bind(Label.TextProperty,
+                            getter: (LibraryModel model) => model.Description,
+                            mode: BindingMode.OneWay));
+
             var itemGrid = new Grid
             {
                 RowDefinitions = Rows.Define(
@@ -56,18 +69,11 @@ namespace HelloMaui.Demos.CollectionViews
                             getter: (LibraryModel model) => model.Title,
                             mode: BindingMode.OneWay),
 
-                    new Label()
-                        .Row(Row.Description)
-                        .Column(Column.Text)
-                        .Margin(new Thickness(12, 0, 0, 0))
-                        .TextTop()
-                        .TextStart()
-                        .Bind(Label.TextProperty,
-                            getter: (LibraryModel model) => model.Description,
-                            mode: BindingMode.OneWay)
+                    verticalBottomPanel
+                   
                 }
-            };
-
+            };        
+            
             var itemBorder = new Border
             {
                 Background = Colors.White,
