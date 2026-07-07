@@ -22,7 +22,7 @@ namespace HelloMaui.Demos.CollectionViews
 
         public CollectionsViewDemo1()
         {
-            BackgroundColor = Colors.Snow;
+            BackgroundColor = Color.FromArgb("#c4c6f5");
 
             var collectionView = new CollectionView
             {
