@@ -22,7 +22,9 @@ namespace HelloMaui.Demos.CollectionViews
 
         private static Uri GetNuGetPackageIconUri(string packageName, string version)
         {
-            return new Uri($"https://api.nuget.org/v3-flatcontainer/{packageName.ToLowerInvariant()}/{version}/icon");
+            var uri = new Uri($"https://api.nuget.org/v3-flatcontainer/{packageName.ToLowerInvariant()}/{version}/icon");
+            Trace.WriteLine(uri);
+            return uri;
         }
 
         public CollectionsViewDemo1()
@@ -83,7 +85,7 @@ namespace HelloMaui.Demos.CollectionViews
                     .TextColor(Color.FromArgb("#1F3B63"))
             };
 
-            Content = new Grid
+            var grid = new Grid
             {
                 RowDefinitions = Rows.Define(
                     (Row.Header, Auto),
@@ -97,6 +99,62 @@ namespace HelloMaui.Demos.CollectionViews
                     statusChip.Row(Row.Status)
                 }
             };
+
+            Content = new RefreshView
+            {
+                Content = grid
+            }.Invoke(refreshView => refreshView.Refreshing += RefreshView_Refreshing)
+            .Margins(12, 24, 12, 0);
+        }
+
+        private async void RefreshView_Refreshing(object? sender, EventArgs e)
+        {
+            var refreshView = (RefreshView)sender!;
+
+            if (MauiLibraries.Any(lib => lib.Title == "UraniumUI.Icons.FontAwesome"))
+            {
+                refreshView.IsRefreshing = false;
+                return;
+            }
+
+            await Task.Delay(500);
+
+            var moreLibaries = new List<LibraryModel>
+            {              
+
+                // UraniumUI packages (all verified to have icons)
+
+                new()
+                {
+                    Title = "UraniumUI",
+                    Description = "Modern UI controls for .NET MAUI.",
+                    ImageSource = ImageSource.FromUri(
+                        GetNuGetPackageIconUri("UraniumUI", "3.0.0"))
+                },
+                new()
+                {
+                    Title = "UraniumUI.Material",
+                    Description = "Material-style controls for .NET MAUI.",
+                    ImageSource = ImageSource.FromUri(
+                        GetNuGetPackageIconUri("UraniumUI.Material", "3.0.0"))
+                },               
+                new()
+                {
+                    Title = "UraniumUI.Icons.FontAwesome",
+                    Description = "FontAwesome icon set for .NET MAUI.",
+                    ImageSource = ImageSource.FromUri(
+                        GetNuGetPackageIconUri("UraniumUI.Icons.FontAwesome", "3.0.0"))
+                }
+            };
+
+            for (int i = 0; i < moreLibaries.Count; i++)
+            {
+                var lib = moreLibaries[i];
+                MauiLibraries.Insert(0,lib);
+            }
+
+            refreshView.IsRefreshing = false;
+
         }
 
         private async void HandleCollectionView_SelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -112,15 +170,15 @@ namespace HelloMaui.Demos.CollectionViews
 
                 await Toast.Make("Tapped", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
-           
+
             await Task.Delay(2000);
             collectionView.SelectedItem = null;
-          
+
         }
 
         public void Dispose()
         {
-            
+
         }
 
         ObservableCollection<LibraryModel> MauiLibraries = new()
@@ -253,7 +311,7 @@ namespace HelloMaui.Demos.CollectionViews
             }
 
             _hasShownAppearingPopup = true;
-            this.ShowPopup(new LifecyclePopup("OnAppearing", PopupPlacement.Center));
+            // this.ShowPopup(new LifecyclePopup("OnAppearing", PopupPlacement.Center));
         }
 
         protected override void OnDisappearing()
@@ -272,20 +330,20 @@ namespace HelloMaui.Demos.CollectionViews
             }
 
             _hasShownNavigatedToPopup = true;
-            this.ShowPopup(new LifecyclePopup("OnNavigatedTo", PopupPlacement.Top));
+            //  this.ShowPopup(new LifecyclePopup("OnNavigatedTo", PopupPlacement.Top));
         }
 
         protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
         {
             base.OnNavigatedFrom(args);
-            this.ShowPopup(new LifecyclePopup("OnNavigatedFrom", PopupPlacement.Top));
+            // this.ShowPopup(new LifecyclePopup("OnNavigatedFrom", PopupPlacement.Top));
 
         }
 
         enum Row { Header, List, Status }
 
 
-        enum PopupPlacement { Top,  Center }
+        enum PopupPlacement { Top, Center }
 
 
         class LifecyclePopup : Popup
