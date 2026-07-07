@@ -25,7 +25,7 @@ namespace HelloMaui
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new CollectionsViewDemo1());
+            return new Window(new NavigationPage(new MainMenuPage()));
         }
 
         protected override void OnSleep()

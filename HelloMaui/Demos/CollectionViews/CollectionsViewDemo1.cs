@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Maui.Alerts; 
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Markup;
+using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls.Shapes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -10,6 +12,9 @@ namespace HelloMaui.Demos.CollectionViews
 
     public class CollectionsViewDemo1 : BaseContentPage, IDisposable
     {
+        private bool _hasShownAppearingPopup;
+        private bool _hasShownNavigatedToPopup;
+
         private readonly Label _selectionStatusLabel = new()
         {
             Text = "Tap an item to see the selected package.",
@@ -238,7 +243,88 @@ namespace HelloMaui.Demos.CollectionViews
 
         };
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (_hasShownAppearingPopup)
+            {
+                return;
+            }
+
+            _hasShownAppearingPopup = true;
+            this.ShowPopup(new LifecyclePopup("OnAppearing", PopupPlacement.Center));
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            this.ShowPopup(new LifecyclePopup("OnDisappearing", PopupPlacement.Center));
+        }
+
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            if (_hasShownNavigatedToPopup)
+            {
+                return;
+            }
+
+            _hasShownNavigatedToPopup = true;
+            this.ShowPopup(new LifecyclePopup("OnNavigatedTo", PopupPlacement.Top));
+        }
+
+        protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+        {
+            base.OnNavigatedFrom(args);
+            this.ShowPopup(new LifecyclePopup("OnNavigatedFrom", PopupPlacement.Top));
+
+        }
+
         enum Row { Header, List, Status }
+
+
+        enum PopupPlacement { Top,  Center }
+
+
+        class LifecyclePopup : Popup
+        {
+            public LifecyclePopup(string message, PopupPlacement placement)
+            {
+                var label = new Label()
+                        .Text(message)
+                        .FontSize(24)
+                        .Top();
+
+                if (placement == PopupPlacement.Center)
+                {
+                    label.Center().TextCenter();
+                }
+                else
+                {
+                    label.Top().TextTop();
+                }
+
+                Content = new Border
+                {
+                    Padding = new Thickness(20),
+                    Background = Colors.White,
+                    Stroke = Colors.LightGray,
+                    StrokeThickness = 1,
+                    Content = label
+                };
+
+                _ = CloseAfterDelayAsync();
+            }
+
+            private async Task CloseAfterDelayAsync()
+            {
+                await Task.Delay(TimeSpan.FromSeconds(new Random().Next(1, 4)));
+                await CloseAsync();
+            }
+
+        }
 
     }
 
