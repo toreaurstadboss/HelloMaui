@@ -27,5 +27,23 @@ namespace HelloMaui
         {
             return new Window(new CollectionsViewDemo1());
         }
+
+        protected override void OnSleep()
+        {
+            Trace.WriteLine("** APP SLEEP-ed **");
+        }
+
+        protected override void OnStart()
+        {
+            Trace.WriteLine("** APP STARTED **");
+
+        }
+
+        protected override void OnResume()
+        {
+            Trace.WriteLine("** APP RESUMED **");
+        }
+
+
     }
 }
