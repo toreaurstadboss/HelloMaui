@@ -1,5 +1,6 @@
 ﻿
 using CommunityToolkit.Maui.Markup;
+using HelloMaui.Helpers;
 using Microsoft.Maui.Controls.Shapes;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
@@ -22,7 +23,7 @@ namespace HelloMaui.Demos.CollectionViews
                .Row(Row.Description)
                .Column(Column.Text);
 
-            verticalBottomPanel.Children.Add(new Button().Text("Add to favorites ⭐"));
+            verticalBottomPanel.Children.Add(new Button().Text("Add to favorites ⭐").Style(MauiStyleHelpers.GetApplicationStyle<Style>("CheesyClassicButton")));
             verticalBottomPanel.Children.Add(new Label()
                         .Margin(new Thickness(12, 0, 0, 0))
                         .TextTop()
@@ -35,7 +36,7 @@ namespace HelloMaui.Demos.CollectionViews
             {
                 RowDefinitions = Rows.Define(
                     (Row.Title, 36),
-                    (Row.Description, 46),
+                    (Row.Description, 76),
                     (Row.BottomPadding, 8)),
                 ColumnDefinitions = Columns.Define(
                     (Column.Icon, (imageRadius * 2) + (imagePadding * 2)),

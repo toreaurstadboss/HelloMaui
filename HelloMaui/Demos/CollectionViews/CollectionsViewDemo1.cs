@@ -42,19 +42,19 @@ namespace HelloMaui.Demos.CollectionViews
             collectionView.ItemsSource = MauiLibraries;
             collectionView.SelectionChanged += HandleCollectionView_SelectionChanged;
 
-            var implicitButtonStyle = new Style(typeof(Button));
-            implicitButtonStyle.Setters.Add(new Setter
-            {
-                Property = Button.BackgroundColorProperty,
-                Value = Colors.Goldenrod
-            });
-            implicitButtonStyle.Setters.Add(new Setter
-            {
-                Property = Button.TextColorProperty,
-                Value = Colors.Purple
-            });
+            //var implicitButtonStyle = new Style(typeof(Button));
+            //implicitButtonStyle.Setters.Add(new Setter
+            //{
+            //    Property = Button.BackgroundColorProperty,
+            //    Value = Colors.Goldenrod
+            //});
+            //implicitButtonStyle.Setters.Add(new Setter
+            //{
+            //    Property = Button.TextColorProperty,
+            //    Value = Colors.Purple
+            //});
 
-            collectionView.Resources.Add(implicitButtonStyle);
+            //collectionView.Resources.Add(implicitButtonStyle);
 
             var statusChip = new Border
             {
