@@ -18,6 +18,8 @@ namespace HelloMaui.Demos.CollectionViews
 
         private CollectionView _collectionsView1;
 
+        private Grid _searchBarWrapper;
+
         private ObservableCollection<LibraryModel> MauiLibraries = new();
 
         private SearchBar _searchBar;
@@ -37,24 +39,52 @@ namespace HelloMaui.Demos.CollectionViews
         public CollectionsViewDemo1()
         {
             BackgroundColor = Color.FromArgb("#c4c6f5");
+           
+            _searchBarWrapper = new Grid().BackgroundColor(Colors.Snow).Padding(4);
 
+            var searchBar = new SearchBar()
+                .Placeholder("Enter search for Nuget")
+                .AppThemeColorBinding(SearchBar.TextColorProperty, Colors.Black, Colors.White)
+                .Center()
+                .TextCenter()
+                .Behaviors(new UserStoppedTypingBehavior
+                {
+                    StoppedTypingTimeThreshold = 1000,
+                    ShouldDismissKeyboardAutomatically = true,
+                    Command = new Command(() => UserStoppedTyping())
+                })
+                .Assign(out _searchBar);
+
+            // Add SearchBar to wrapper
+            _searchBarWrapper.Add(searchBar);
+
+            // Add tap/mouse click gesture to wrapper (works on emulator)
+            _searchBarWrapper.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                NumberOfTapsRequired = 1,
+                Command = new Command(async () =>
+                {
+                    await Toast.Make("Mouse click or tap detected!",
+                        CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                })
+            });
+
+            // Add your double‑tap gesture too (still works on real devices)
+            _searchBarWrapper.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                NumberOfTapsRequired = 2,
+                Command = new Command(async () =>
+                {
+                    await Toast.Make("You double tapped man! .NET MAUI rules!",
+                        CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                })
+            });
+
+            // Now use the wrapper as the CollectionView header
             _collectionsView1 = new CollectionView
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Always,
-
-                Header = new SearchBar()
-                    .Placeholder("Enter search for Nuget")
-                    .AppThemeColorBinding(SearchBar.TextColorProperty, Colors.Black, Colors.White)
-                    .Center()
-                    .TextCenter()
-                    .Behaviors(new UserStoppedTypingBehavior
-                    {
-                        StoppedTypingTimeThreshold = 1000,
-                        ShouldDismissKeyboardAutomatically = true,
-                        Command = new Command(() => UserStoppedTyping())
-                    })
-                    .Assign(out _searchBar),
-
+                Header = _searchBarWrapper,
                 SelectionMode = SelectionMode.Single,
                 ItemTemplate = new MauiLibraryItemTemplate(),
             };
