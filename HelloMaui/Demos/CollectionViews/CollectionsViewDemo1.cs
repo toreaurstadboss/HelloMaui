@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Views;
@@ -14,6 +15,12 @@ namespace HelloMaui.Demos.CollectionViews
     {
         private bool _hasShownAppearingPopup;
         private bool _hasShownNavigatedToPopup;
+
+        private CollectionView _collectionsView1;
+
+        private ObservableCollection<LibraryModel> MauiLibraries = new();
+
+        private SearchBar _searchBar;
 
         private readonly Label _selectionStatusLabel = new()
         {
@@ -31,23 +38,34 @@ namespace HelloMaui.Demos.CollectionViews
         {
             BackgroundColor = Color.FromArgb("#c4c6f5");
 
-            var collectionView = new CollectionView
+            _collectionsView1 = new CollectionView
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Always,
 
-                Header = new Label()
-                    .Text("MAUI Nuget libraries & Others")
-                    .Paddings(bottom: 8)
-                    .Font(size: 24, family: "RobotoFlex")
+                Header = new SearchBar()
+                    .Placeholder("Enter search for Nuget")
+                    .AppThemeColorBinding(SearchBar.TextColorProperty, Colors.Black, Colors.White)
                     .Center()
-                    .TextCenter(),
+                    .TextCenter()
+                    .Behaviors(new UserStoppedTypingBehavior
+                    {
+                        StoppedTypingTimeThreshold = 1000,
+                        ShouldDismissKeyboardAutomatically = true,
+                        Command = new Command(() => UserStoppedTyping())
+                    })
+                    .Assign(out _searchBar),
 
                 SelectionMode = SelectionMode.Single,
                 ItemTemplate = new MauiLibraryItemTemplate(),
             };
 
-            collectionView.ItemsSource = MauiLibraries;
-            collectionView.SelectionChanged += HandleCollectionView_SelectionChanged;
+            foreach (var library in CreateLibraries())
+            {
+                MauiLibraries.Add(library);
+            }
+
+            _collectionsView1.ItemsSource = MauiLibraries;
+            _collectionsView1.SelectionChanged += HandleCollectionView_SelectionChanged;
 
             //var implicitButtonStyle = new Style(typeof(Button));
             //implicitButtonStyle.Setters.Add(new Setter
@@ -95,7 +113,7 @@ namespace HelloMaui.Demos.CollectionViews
                 Padding = new Thickness(16, 12),
                 Children =
                 {
-                    collectionView.Row(Row.List),
+                    _collectionsView1.Row(Row.List),
                     statusChip.Row(Row.Status)
                 }
             };
@@ -107,9 +125,38 @@ namespace HelloMaui.Demos.CollectionViews
             .Margins(12, 24, 12, 0);
         }
 
+        private void UserStoppedTyping()
+        {
+            MauiLibraries.Clear();
+            string searchTerm = _searchBar.Text;
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                foreach (var library in CreateLibraries())
+                {
+                    MauiLibraries.Add(library);
+                }
+                return;
+            }
+            else
+            {
+                foreach (var library in CreateLibraries().Where(x => x.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
+                {
+                    MauiLibraries.Add(library);
+                }                
+            }            
+        }
+
         private async void RefreshView_Refreshing(object? sender, EventArgs e)
         {
             var refreshView = (RefreshView)sender!;
+
+            MauiLibraries.Clear();
+
+            foreach (var library in CreateLibraries())
+            {
+                MauiLibraries.Add(library);
+            }
 
             if (MauiLibraries.Any(lib => lib.Title == "UraniumUI.Icons.FontAwesome"))
             {
@@ -153,6 +200,8 @@ namespace HelloMaui.Demos.CollectionViews
                 MauiLibraries.Insert(0,lib);
             }
 
+            _collectionsView1.ItemsSource = moreLibaries;
+
             refreshView.IsRefreshing = false;
 
         }
@@ -181,7 +230,7 @@ namespace HelloMaui.Demos.CollectionViews
 
         }
 
-        ObservableCollection<LibraryModel> MauiLibraries = new()
+        static List<LibraryModel> CreateLibraries() => new()
         {
 
             new()
