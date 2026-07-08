@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Maui.Markup;
-using HelloMaui.Demos.CollectionViews;
+using HelloMaui.Models;
 
 
-namespace HelloMaui.Demos.Details
+namespace HelloMaui.Pages
 {
 
     public class DetailsPage : BaseContentPage, IQueryAttributable

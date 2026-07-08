@@ -1,5 +1,5 @@
 ﻿using HelloMaui.Demos.CollectionViews;
-using HelloMaui.Demos.Details;
+using HelloMaui.Pages;
 
 namespace HelloMaui
 {

@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Maui.Markup;
 using HelloMaui.Helpers;
+using HelloMaui.Models;
 using Microsoft.Maui.Controls.Shapes;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 

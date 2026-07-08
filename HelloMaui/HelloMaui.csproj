@@ -80,6 +80,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Demos\CollectionViews\" />
 	  <Folder Include="Handlers\" />
 	</ItemGroup>
 

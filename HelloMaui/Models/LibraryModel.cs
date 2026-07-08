@@ -1,4 +1,4 @@
-﻿namespace HelloMaui.Demos.CollectionViews
+﻿namespace HelloMaui.Models
 {
 
     public class LibraryModel
