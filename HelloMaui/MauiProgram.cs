@@ -29,6 +29,12 @@ namespace HelloMaui
     		builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddSingleton<AppShell>();
+            builder.Services.AddSingleton<App>();
+
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<MainMenuPage>();
+
             return builder.Build();
         }
     }

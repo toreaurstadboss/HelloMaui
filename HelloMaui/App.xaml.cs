@@ -1,31 +1,20 @@
-﻿using HelloMaui.Demos.CollectionViews;
-using HelloMaui.Demos.Xaml;
-using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace HelloMaui
 {
     public partial class App : Application
     {
+        public AppShell Shell { get; }
 
-
-        public App()
+        public App(AppShell shell)
         {
-            try
-            {
-                InitializeComponent();
-              
-            }
-            catch (Exception err)
-            {
-                Console.WriteLine(err);
-                Debug.WriteLine(err);
-            }
+            InitializeComponent();
+            Shell = shell;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new NavigationPage(new MainMenuPage()));
+            return new Window(Shell);
         }
 
         protected override void OnSleep()
