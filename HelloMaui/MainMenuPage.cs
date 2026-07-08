@@ -14,7 +14,7 @@ public class MainMenuPage : ContentPage
 
         openDemoButton.Clicked += async (_, _) =>
         {
-            await Navigation.PushAsync(new CollectionsViewDemo1());
+            await Navigation.PushAsync(new ListPage());
         };
 
         Content = new VerticalStackLayout
