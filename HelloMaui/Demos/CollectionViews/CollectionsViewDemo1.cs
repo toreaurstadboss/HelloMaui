@@ -143,12 +143,13 @@ namespace HelloMaui.Demos.CollectionViews
                 foreach (var library in CreateLibraries().Where(x => x.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
                 {
                     MauiLibraries.Add(library);
-                }                
-            }            
+                }
+            }
         }
 
         private async void RefreshView_Refreshing(object? sender, EventArgs e)
         {
+            _searchBar.IsEnabled = false;
             var refreshView = (RefreshView)sender!;
 
             MauiLibraries.Clear();
@@ -158,13 +159,14 @@ namespace HelloMaui.Demos.CollectionViews
                 MauiLibraries.Add(library);
             }
 
+
             if (MauiLibraries.Any(lib => lib.Title == "UraniumUI.Icons.FontAwesome"))
             {
+
                 refreshView.IsRefreshing = false;
+                _searchBar.IsEnabled = true;
                 return;
             }
-
-            await Task.Delay(500);
 
             var moreLibaries = new List<LibraryModel>
             {              
@@ -184,7 +186,7 @@ namespace HelloMaui.Demos.CollectionViews
                     Description = "Material-style controls for .NET MAUI.",
                     ImageSource = ImageSource.FromUri(
                         GetNuGetPackageIconUri("UraniumUI.Material", "3.0.0"))
-                },               
+                },
                 new()
                 {
                     Title = "UraniumUI.Icons.FontAwesome",
@@ -192,15 +194,19 @@ namespace HelloMaui.Demos.CollectionViews
                     ImageSource = ImageSource.FromUri(
                         GetNuGetPackageIconUri("UraniumUI.Icons.FontAwesome", "3.0.0"))
                 }
-            };
+            }.OrderBy(x => x.Title).ToList();
+
+            await Task.Delay(500);
 
             for (int i = 0; i < moreLibaries.Count; i++)
             {
                 var lib = moreLibaries[i];
-                MauiLibraries.Insert(0,lib);
+                MauiLibraries.Insert(0, lib);
             }
 
-            _collectionsView1.ItemsSource = moreLibaries;
+            _collectionsView1.ItemsSource = MauiLibraries;
+
+            _searchBar.IsEnabled = true;
 
             refreshView.IsRefreshing = false;
 
@@ -230,7 +236,11 @@ namespace HelloMaui.Demos.CollectionViews
 
         }
 
-        static List<LibraryModel> CreateLibraries() => new()
+        static List<LibraryModel> CreateLibraries() => CreateNugetList().OrderBy(x => x.Title).ToList();
+
+        private static List<LibraryModel> CreateNugetList()
+        {
+            return new()
         {
 
             new()
@@ -349,6 +359,7 @@ namespace HelloMaui.Demos.CollectionViews
             }
 
         };
+        }
 
         protected override void OnAppearing()
         {
