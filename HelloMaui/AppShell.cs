@@ -1,5 +1,6 @@
 ﻿using HelloMaui.Demos.CollectionViews;
 using HelloMaui.Pages;
+using HelloMaui.ViewModels;
 
 namespace HelloMaui
 {
@@ -17,7 +18,7 @@ namespace HelloMaui
             CreateRoutes();
         }
 
-        public static string GetRoute<T>() where T : BaseContentPage
+        public static string GetRoute<T>() where T : ContentPage
         {
             if (typeof(T) == typeof(DetailsPage))
             {

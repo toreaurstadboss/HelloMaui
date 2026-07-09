@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace HelloMaui.ViewModels
 {
@@ -15,7 +13,7 @@ namespace HelloMaui.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value, string propertyName)
+        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;
@@ -25,7 +23,7 @@ namespace HelloMaui.ViewModels
             return true;
         }
 
-        protected bool SetProperty<T, TProp>(ref T backingStore, Expression<Func<T, TProp>> memberExpression, string propertyName)
+        protected bool SetProperty<T, TProp>(ref T backingStore, Expression<Func<T, TProp>> memberExpression, [CallerMemberName] string? propertyName = null)
         {
             if (!(memberExpression is MemberExpression member)) { 
                 throw new ArgumentException("Expression must be a member expression", nameof(memberExpression));

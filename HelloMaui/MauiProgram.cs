@@ -3,6 +3,8 @@ using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Mvvm;
 using CommunityToolkit.Maui;
 using HelloMaui.Demos.CollectionViews;
+using HelloMaui.Pages;
+using HelloMaui.ViewModels;
 
 namespace HelloMaui
 {
@@ -36,6 +38,13 @@ namespace HelloMaui
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainMenuPage>();
             builder.Services.AddTransient<ListPage>();
+
+
+            builder.Services.AddTransient<DetailsPage>();
+
+            builder.Services.AddTransient<DetailsViewModel>();
+            builder.Services.AddTransient<ListViewModel>();
+
 
             return builder.Build();
         }
