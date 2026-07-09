@@ -74,13 +74,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Demos\Xaml\DemoPage1.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="Demos\CollectionViews\" />
+	  <Folder Include="Demos\Xaml\" />
 	  <Folder Include="Handlers\" />
 	</ItemGroup>
 
