@@ -10,16 +10,25 @@ namespace HelloMaui.ViewModels
 
     public partial class ListViewModel : BaseViewModel
     {
-        public ObservableCollection<LibraryModel> MauiLibraries = new();
+        public ObservableCollection<LibraryModel> MauiLibraries { get;} = new();
 
         readonly IDispatcher _dispatcher;
 
         public ListViewModel(IDispatcher dispatcher)
         {
-            _dispatcher = dispatcher;            
+            _dispatcher = dispatcher;
+            InitLibraries();
         }
 
+        private void InitLibraries()
+        {
+            _dispatcher.Dispatch(() => MauiLibraries.Clear());
 
+            foreach (var library in CreateLibraries())
+            {
+               _dispatcher.Dispatch(() =>  MauiLibraries.Add(library));
+            }
+        }
 
         [ObservableProperty]
         private bool _isSearchBarEnabled = true;

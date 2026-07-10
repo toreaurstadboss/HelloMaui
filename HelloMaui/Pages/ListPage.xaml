@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hellomaui:BaseContentPage
+    x:TypeArguments="viewmodels:ListViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:DataType="viewmodels:ListViewModel"
+    xmlns:hellomaui="clr-namespace:HelloMaui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:HelloMaui.ViewModels"    
+    xmlns:views="clr-namespace:HelloMaui.Views"
+    x:Class="HelloMaui.Pages.ListPage"
+    Title="Maui Libraries">
+
+    <ContentPage.Content>
+
+        <RefreshView
+            IsRefreshing="{Binding IsRefreshViewRefreshing}"
+            Command="{Binding RefreshViewRefreshingCommand}"
+            Margin="2" Background="AliceBlue">
+            <CollectionView
+                SelectionMode="Single"
+                MinimumHeightRequest="100" 
+                BackgroundColor="{AppThemeBinding Light=AliceBlue, Dark=LightGreen}"
+                SelectedItem="{Binding SelectedItem}"
+                SelectionChangedCommand="{Binding CollectionViewSelectionChangedCommand}"
+                ItemsSource="{Binding MauiLibraries}">
+              
+                <CollectionView.Header>
+                    
+                    <!--<Label Text="This list view is made in XAML yay" BackgroundColor="Orange" />-->
+                    
+                    <SearchBar
+                        x:Name="SearchBar"                       
+                        Text="{Binding SearchBarText}"
+                        IsEnabled="{Binding IsSearchBarEnabled}"
+                        Placeholder="search titles"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center">
+                        <SearchBar.Behaviors>
+                            <toolkit:UserStoppedTypingBehavior 
+                                x:DataType="SearchBar"
+                                Command="{Binding UserStoppedTypingCommand}"
+                                BindingContext="{Binding Path=BindingContext,Source=SearchBar}"
+                                StoppedTypingTimeThreshold="1000"
+                                ShouldDismissKeyboardAutomatically="True"></toolkit:UserStoppedTypingBehavior>
+                        </SearchBar.Behaviors>
+
+                        <SearchBar.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="HandleSearchBarDoubleTapped" NumberOfTapsRequired="2" />
+                        </SearchBar.GestureRecognizers>
+                    </SearchBar>
+                        
+                </CollectionView.Header>
+
+                <CollectionView.Footer>
+
+                    <Label Text=".NET MAUI : From Zero to Hero" Padding="8,0,0,0"
+                           FontSize="10" 
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center" />
+
+                </CollectionView.Footer>
+
+                <CollectionView.ItemTemplate>
+                    <views:MauiLibraryItemTemplate />
+                </CollectionView.ItemTemplate>
+                
+            </CollectionView>
+        </RefreshView>
+       
+
+    </ContentPage.Content>
+
+
+
+</hellomaui:BaseContentPage>

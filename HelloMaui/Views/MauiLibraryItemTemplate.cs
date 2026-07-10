@@ -5,7 +5,7 @@ using HelloMaui.Models;
 using Microsoft.Maui.Controls.Shapes;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
-namespace HelloMaui.Demos.CollectionViews
+namespace HelloMaui.Views
 {
 
     public class MauiLibraryItemTemplate : DataTemplate

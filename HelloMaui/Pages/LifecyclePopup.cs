@@ -6,6 +6,11 @@ namespace HelloMaui.Demos.CollectionViews
 
     public partial class ListPage
     {
+
+        enum Row { Header, List, Status }
+
+        enum PopupPlacement { Top, Center }
+
         class LifecyclePopup : Popup
         {
             public LifecyclePopup(string message, PopupPlacement placement)

@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
-using CommunityToolkit.Mvvm;
-using CommunityToolkit.Maui;
-using HelloMaui.Demos.CollectionViews;
 using HelloMaui.Pages;
 using HelloMaui.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace HelloMaui
 {
@@ -35,8 +33,8 @@ namespace HelloMaui
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<App>();
 
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainMenuPage>();
+            //builder.Services.AddTransient<MainPage>();
+            //builder.Services.AddTransient<MainMenuPage>();
             builder.Services.AddTransient<ListPage>();
 
 

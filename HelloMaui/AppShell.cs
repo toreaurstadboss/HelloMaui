@@ -1,6 +1,4 @@
-﻿using HelloMaui.Demos.CollectionViews;
-using HelloMaui.Pages;
-using HelloMaui.ViewModels;
+﻿using HelloMaui.Pages;
 
 namespace HelloMaui
 {
