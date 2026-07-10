@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hellomaui:BaseContentPage
+    x:TypeArguments="viewmodels:DetailsViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:DataType="viewmodels:DetailsViewModel"
+    xmlns:hellomaui="clr-namespace:HelloMaui"
+    xmlns:viewmodels="clr-namespace:HelloMaui.ViewModels"
+    x:Class="HelloMaui.Pages.DetailsPage"
+    Title="{Binding LibraryTitle}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior TextOverride="{OnPlatform iOS=List}" />
+    </Shell.BackButtonBehavior>
+    
+
+    <ContentPage.Content>
+        <VerticalStackLayout
+            Spacing="12"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="12, 12, 12, 12">
+
+            <Border Stroke="Gray" StrokeThickness="4">
+                <Label Text="This is an XAML page yahoooo!" FontSize="42" FontFamily="Comic Sans MS" BackgroundColor="LemonChiffon" TextColor="SpringGreen">
+                </Label>
+            </Border>
+
+            <Image HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HeightRequest="250"
+                   WidthRequest="250" 
+                   Source="{Binding LibraryImageSource}" />
+
+            <Label
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                FontSize="24"
+                Text="{Binding LibraryTitle}" />
+
+            <Label
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                FontAttributes="Italic"
+                FontSize="16"
+                Text="{Binding LibraryDescription}" />
+
+            <Button 
+                Text="Back"
+                Command="{Binding HandleBackButtonCommand}" />
+
+        </VerticalStackLayout>
+    </ContentPage.Content>
+
+
+
+</hellomaui:BaseContentPage>
