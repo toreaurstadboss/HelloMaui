@@ -38,8 +38,8 @@ namespace HelloMaui.Demos.CollectionViews
 
             private async Task CloseAfterDelayAsync()
             {
-                await Task.Delay(TimeSpan.FromSeconds(new Random().Next(1, 4)));
-                await CloseAsync();
+                //await Task.Delay(TimeSpan.FromSeconds(new Random().Next(1, 4)));
+                //await CloseAsync();
             }
 
         }

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using HelloMaui.Models;
 using HelloMaui.ViewModels;
-
+using CommunityToolkit.Mvvm;
 
 namespace HelloMaui.Pages
 {
@@ -32,7 +32,7 @@ namespace HelloMaui.Pages
                         .BackgroundColor(Colors.LemonChiffon)
                         .TextColor(Colors.Purple)
                         .Bind(Button.CommandProperty,
-                            getter: (DetailsViewModel vm) => vm.BackButtonCommand);
+                            getter: (DetailsViewModel vm) => vm.HandleBackButtonCommand);
 
             backbutton.BorderColor = Colors.Black;
             backbutton.BorderWidth = 2;
@@ -60,10 +60,7 @@ namespace HelloMaui.Pages
                         .Font(italic: true, size: 16)
                         .Bind(Label.TextProperty, getter: (DetailsViewModel viewModel) => viewModel.LibraryDescription),
                     
-                    new Button()
-                        .Text("Back")
-                        .Bind(Button.CommandProperty, getter: (DetailsViewModel viewModel) => viewModel.BackButtonCommand)
-
+                    backbutton
                 }
 
             }

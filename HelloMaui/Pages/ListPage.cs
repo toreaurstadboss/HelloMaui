@@ -84,7 +84,7 @@ namespace HelloMaui.Demos.CollectionViews
             };
 
             _collectionsView1.Bind(CollectionView.ItemsSourceProperty, getter: (ListViewModel vm) => vm.MauiLibraries);
-            _collectionsView1.Bind(CollectionView.SelectionChangedCommandProperty, getter: (ListViewModel vm) => vm.SelectionChangedCommand);
+            _collectionsView1.Bind(CollectionView.SelectionChangedCommandProperty, getter: (ListViewModel vm) => vm.HandleSelectionChangedCommand);
             _collectionsView1.Bind(CollectionView.SelectedItemProperty, getter: (ListViewModel vm) => vm.SelectedItem,
                 setter: (ListViewModel vm, object? selectedItem) => vm.SelectedItem = selectedItem);
 

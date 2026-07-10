@@ -1,69 +1,54 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HelloMaui.Models;
 using HelloMaui.Pages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows.Input;
 
 namespace HelloMaui.ViewModels
 {
 
-    public class ListViewModel : BaseViewModel
+    public partial class ListViewModel : BaseViewModel
     {
         public ObservableCollection<LibraryModel> MauiLibraries = new();
 
-        public ICommand UserStoppedTypingCommand { get; }
-        public ICommand RefreshViewRefreshingCommand { get; }
-        public ICommand SelectionChangedCommand { get; }
+        readonly IDispatcher _dispatcher;
 
+        public ListViewModel(IDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;            
+        }
+
+
+
+        [ObservableProperty]
         private bool _isSearchBarEnabled = true;
+
+        [ObservableProperty]
         private bool _isRefreshViewRefreshing;
 
+        [ObservableProperty]
         private object? _selectedItem;
 
-        public object? SelectedItem
-        {
-            get => _selectedItem;
-            set =>  SetProperty(ref _selectedItem, value);
-
-        }
-
-        public bool IsRefreshViewRefreshing
-        {
-            get => _isRefreshViewRefreshing;
-            set => SetProperty(ref _isRefreshViewRefreshing, value);
-        }
-
-        public bool IsSearchBarEnabled
-        {
-            get => _isSearchBarEnabled;
-            set => SetProperty(ref _isSearchBarEnabled, value);
-        }
-
+        [ObservableProperty]
         private string? _searchBarText = string.Empty;
 
-        public string? SearchBarText
+        [RelayCommand]
+        private async Task CollectionViewSelectionChanged()
         {
-            get => _searchBarText;
-            set => SetProperty(ref _searchBarText, value);
+            if (SelectedItem is LibraryModel libraryModel)
+            {
+                await Shell.Current.GoToAsync(AppShell.GetRoute<DetailsPage>(), new Dictionary<string, object>
+                {
+                    { DetailsViewModel.LibraryModelKey, libraryModel }
+                });
+            }
+
+            SelectedItem = null;
         }
 
-        public ListViewModel()
-        {
-            UserStoppedTypingCommand = new RelayCommand(() => UserStoppedTyping());
-            RefreshViewRefreshingCommand = new AsyncRelayCommand(async () =>
-            {
-                await RefreshViewRefreshing();
-            });
-
-            SelectionChangedCommand = new AsyncRelayCommand(async () =>
-            {
-                await HandleSelectionChanged();
-            });
-
-        }
-
-        private async Task RefreshViewRefreshing()
+        [RelayCommand]
+        async Task RefreshViewRefreshing()
         {
 
             try
@@ -115,7 +100,7 @@ namespace HelloMaui.ViewModels
                 }
             }.OrderBy(x => x.Title).ToList();
 
-                await Task.Delay(500);
+               // await Task.Delay(500);
 
                 for (int i = 0; i < moreLibaries.Count; i++)
                 {
@@ -270,7 +255,8 @@ namespace HelloMaui.ViewModels
         };
         }
 
-        private async Task HandleSelectionChanged()
+        [RelayCommand]
+        async Task HandleSelectionChanged()
         {
             if (SelectedItem is LibraryModel libraryModel)
             {
@@ -283,16 +269,16 @@ namespace HelloMaui.ViewModels
             SelectedItem = null;
         }
 
-
-        private void UserStoppedTyping()
+        [RelayCommand]
+        async Task UserStoppedTyping()
         {
-            MauiLibraries.Clear();
+            await _dispatcher.DispatchAsync(() =>  MauiLibraries.Clear());
 
             if (string.IsNullOrWhiteSpace(SearchBarText))
             {
                 foreach (var library in CreateLibraries())
                 {
-                    MauiLibraries.Add(library);
+                    await _dispatcher.DispatchAsync(() =>  MauiLibraries.Add(library));
                 }
                 return;
             }
@@ -300,7 +286,7 @@ namespace HelloMaui.ViewModels
             {
                 foreach (var library in CreateLibraries().Where(x => x.Title.Contains(SearchBarText, StringComparison.OrdinalIgnoreCase)))
                 {
-                    MauiLibraries.Add(library);
+                    await _dispatcher.DispatchAsync(() =>  MauiLibraries.Add(library));
                 }
             }
         }
